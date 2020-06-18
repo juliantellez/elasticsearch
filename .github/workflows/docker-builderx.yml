@@ -23,5 +23,3 @@ jobs:
         run: make ci-docker-auth
       - name: Docker Buildx
         run: make ci-docker-buildx-push
-      - name: Docker Build
-        run: make ci-docker-push
