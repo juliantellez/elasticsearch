@@ -16,7 +16,12 @@ jobs:
           qemu-version: latest
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
+      - name: Docker Login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: make ci-docker-auth
       - name: Docker Buildx
         run: make ci-docker-buildx
       - name: Docker Build
-        run: make ci-docker-build
+        run: make ci-docker-push

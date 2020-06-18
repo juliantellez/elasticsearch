@@ -8,16 +8,16 @@ docker-image-local:
 	docker build --rm -t $(DOCKER_REPOSITORY):local .
 
 ci-docker-auth:
-	@docker login -u $(DOCKER_USERNAME) -p $(DOCKER_PASSWORD)
+	@echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
 
-ci-docker-build: ci-docker-auth
+ci-docker-build:
 	@docker build --no-cache -t $(DOCKER_REPOSITORY):$(GITHUB_SHA::8) .
 
-ci-docker-push: ci-docker-auth
+ci-docker-push: ci-docker-build
 	docker tag $(DOCKER_REPOSITORY):$(GITHUB_SHA::8) $(DOCKER_REPOSITORY):latest
 	docker push $(DOCKER_REPOSITORY)
 
-ci-docker-buildx: ci-docker-auth
+ci-docker-buildx:
 	@docker buildx build \
 		-t $(DOCKER_REPOSITORY):$(GITHUB_SHA::8) $(DOCKER_REPOSITORY):latest \
 		--platform ${DOCKER_PLATFORMS} \
