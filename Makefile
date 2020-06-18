@@ -18,11 +18,11 @@ ci-docker-push: ci-docker-build
 	docker push $(DOCKER_REPOSITORY)
 
 ci-docker-buildx:
-	@docker buildx build --platform ${DOCKER_PLATFORMS} \
+	@docker buildx build --platform $(DOCKER_PLATFORMS) \
 		--tag $(DOCKER_REPOSITORY):$(GITHUB_SHA::8) $(DOCKER_REPOSITORY):latest \
 		--output "type=image,push=false" .
 
 ci-docker-buildx-push: ci-docker-buildx
-	@docker buildx build --platform ${DOCKER_PLATFORMS} \
+	@docker buildx build --platform $(DOCKER_PLATFORMS) \
 		--tag $(DOCKER_REPOSITORY):$(GITHUB_SHA::8) $(DOCKER_REPOSITORY):latest \
 		--output "type=image,push=true" .
