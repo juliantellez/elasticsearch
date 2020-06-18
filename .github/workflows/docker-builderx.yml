@@ -16,8 +16,7 @@ jobs:
           qemu-version: latest
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
-      - name: Run Buildx
-        run: |
-          docker buildx build \
-            --platform linux/amd64,linux/arm64 \
-            --output "type=image,push=false" .
+      - name: Docker Buildx
+        run: make ci-docker-buildx
+      - name: Docker Build
+        run: make ci-docker-build
