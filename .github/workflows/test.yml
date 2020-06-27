@@ -1,6 +1,6 @@
-name: docker buildx
+name: Test builds
 
-on: [push]
+on: push
 
 jobs:
   buildx:
@@ -16,12 +16,7 @@ jobs:
           qemu-version: latest
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
-      - name: Docker Login
-        run: make ci-docker-auth
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - name: Docker Buildx
-        run: make ci-docker-buildx-push
+        run: make ci-docker-buildx
       - name: Docker Clean up
         run: rm -rf /home/runner/.docker/config.json
